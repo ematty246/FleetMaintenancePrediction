@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleet Predictive Maintenance System</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Puter.js AI CDN -->
+  <script src="https://js.puter.com/v2/"></script>
+</head>
+<body>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="alert" aria-live="polite">
+    <span id="toast-icon" class="toast-icon"></span>
+    <span id="toast-message"></span>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <div class="logo-icon-wrap">
+          <i data-lucide="gauge" class="logo-icon"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="header-title">Fleet Predictive Maintenance System</h1>
+          <p class="header-subtitle">AI-powered heavy vehicle maintenance prediction</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+          <i data-lucide="sun" id="theme-icon-light" class="theme-icon"></i>
+          <i data-lucide="moon" id="theme-icon-dark" class="theme-icon"></i>
+        </button>
+        <div class="header-badge">
+          <span class="badge-dot"></span>
+          <span>Live Analysis</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- Location Card -->
+    <section class="location-section" aria-label="Location Detection">
+      <div id="location-card" class="glass-card location-card location-detecting">
+        <div class="location-icon-wrap">
+          <i data-lucide="map-pin" class="location-icon"></i>
+        </div>
+        <div class="location-info">
+          <p class="location-label">Detecting Location…</p>
+          <p class="location-coords" id="location-coords">Requesting browser permission</p>
+        </div>
+        <div class="location-status" id="location-status">
+          <div class="pulse-ring"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Form -->
+    <form id="predict-form" class="form-wrapper" novalidate>
+
+      <!-- Section: Vehicle Information -->
+      <div class="glass-card form-section">
+        <div class="section-header">
+          <i data-lucide="truck" class="section-icon"></i>
+          <h2 class="section-title">Vehicle Information</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="make-model">Make &amp; Model</label>
+            <div class="select-wrap">
+              <select id="make-model" name="Make_and_Model" class="form-select" required>
+                <option value="" disabled selected>Select make &amp; model</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Volvo">Volvo</option>
+                <option value="Tata">Tata</option>
+                <option value="Ashok Leyland">Ashok Leyland</option>
+              </select>
+              <i data-lucide="chevron-down" class="select-chevron"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="vehicle-type">Vehicle Type</label>
+            <div class="select-wrap">
+              <select id="vehicle-type" name="Vehicle_Type" class="form-select" required>
+                <option value="" disabled selected>Select vehicle type</option>
+                <option value="Truck">Truck</option>
+                <option value="Van">Van</option>
+                <option value="Bus">Bus</option>
+              </select>
+              <i data-lucide="chevron-down" class="select-chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Operational Data -->
+      <div class="glass-card form-section">
+        <div class="section-header">
+          <i data-lucide="settings" class="section-icon"></i>
+          <h2 class="section-title">Operational Data</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="vehicle-age">
+              Vehicle Age <span class="unit-label">years</span>
+            </label>
+            <input type="number" id="vehicle-age" name="Vehicle_Age"
+              class="form-input" placeholder="e.g. 5" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="usage-hours">
+              Usage Hours <span class="unit-label">hrs</span>
+            </label>
+            <input type="number" id="usage-hours" name="Usage_Hours"
+              class="form-input" placeholder="e.g. 2500" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="load-capacity">
+              Load Capacity <span class="unit-label">tons</span>
+            </label>
+            <input type="number" id="load-capacity" name="Load_Capacity"
+              class="form-input" placeholder="e.g. 20" min="0" step="0.1" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="actual-load">
+              Actual Load <span class="unit-label">tons</span>
+            </label>
+            <input type="number" id="actual-load" name="Actual_Load"
+              class="form-input" placeholder="e.g. 14" min="0" step="0.1" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Sensor Data -->
+      <div class="glass-card form-section">
+        <div class="section-header">
+          <i data-lucide="cpu" class="section-icon"></i>
+          <h2 class="section-title">Sensor Data</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="engine-temp">
+              Engine Temperature <span class="unit-label">°C</span>
+            </label>
+            <input type="number" id="engine-temp" name="Engine_Temperature"
+              class="form-input" placeholder="e.g. 90" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fuel-consumption">
+              Fuel Consumption <span class="unit-label">L/100km</span>
+            </label>
+            <input type="number" id="fuel-consumption" name="Fuel_Consumption"
+              class="form-input" placeholder="e.g. 30" min="0" step="0.1" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="oil-quality">
+              Oil Quality <span class="unit-label">0–100</span>
+            </label>
+            <input type="number" id="oil-quality" name="Oil_Quality"
+              class="form-input" placeholder="e.g. 75" min="0" max="100" required />
+            <div class="range-bar-wrap">
+              <div class="range-bar" id="oil-quality-bar"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brake-wear">
+              Brake Wear <span class="unit-label">0–100%</span>
+            </label>
+            <input type="number" id="brake-wear" name="Brake_Wear_Percentage"
+              class="form-input" placeholder="e.g. 40" min="0" max="100" required />
+            <div class="range-bar-wrap">
+              <div class="range-bar range-bar--danger" id="brake-wear-bar"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tire-pressure">
+              Tire Pressure <span class="unit-label">PSI</span>
+            </label>
+            <input type="number" id="tire-pressure" name="Tire_Pressure"
+              class="form-input" placeholder="e.g. 110" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="vibration">
+              Vibration Levels <span class="unit-label">mm/s</span>
+            </label>
+            <input type="number" id="vibration" name="Vibration_Levels"
+              class="form-input" placeholder="e.g. 3.2" min="0" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="avg-speed">
+              Average Speed <span class="unit-label">km/h</span>
+            </label>
+            <input type="number" id="avg-speed" name="Average_Speed"
+              class="form-input" placeholder="e.g. 65" min="0" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Road Conditions -->
+      <div class="glass-card form-section">
+        <div class="section-header">
+          <i data-lucide="map" class="section-icon"></i>
+          <h2 class="section-title">Road Conditions</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="road-conditions">Road Conditions</label>
+            <div class="select-wrap">
+              <select id="road-conditions" name="Road_Conditions" class="form-select" required>
+                <option value="" disabled selected>Select road condition</option>
+                <option value="Good">Good</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Poor">Poor</option>
+              </select>
+              <i data-lucide="chevron-down" class="select-chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-row">
+        <button type="submit" id="predict-btn" class="predict-btn">
+          <span class="btn-icon-wrap">
+            <i data-lucide="activity" id="btn-icon" class="btn-icon"></i>
+            <span class="btn-spinner hidden" id="btn-spinner"></span>
+          </span>
+          <span id="btn-text">Predict Maintenance</span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Result Card (hidden until response) -->
+    <section id="result-section" class="result-section hidden" aria-live="polite">
+      <div class="glass-card result-card" id="result-card">
+
+        <div class="result-header">
+          <div class="result-icon-wrap" id="result-icon-wrap">
+            <i data-lucide="check-circle" id="result-icon" class="result-icon"></i>
+          </div>
+          <div>
+            <p class="result-label">Prediction Result</p>
+            <h3 class="result-status" id="result-status">—</h3>
+          </div>
+        </div>
+
+        <div class="result-body">
+          <!-- Circular Progress -->
+          <div class="circle-progress-wrap">
+            <svg class="circle-svg" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="circle-track" cx="60" cy="60" r="50" />
+              <circle class="circle-fill" id="circle-fill" cx="60" cy="60" r="50"
+                stroke-dasharray="314.16" stroke-dashoffset="314.16" />
+            </svg>
+            <div class="circle-label">
+              <span class="circle-pct" id="circle-pct">0%</span>
+              <span class="circle-sub">Probability</span>
+            </div>
+          </div>
+
+          <!-- Info Grid -->
+          <div class="result-info-grid">
+            <div class="result-info-item">
+              <i data-lucide="cloud" class="info-icon"></i>
+              <div>
+                <p class="info-label">Weather Detected</p>
+                <p class="info-value" id="weather-value">—</p>
+              </div>
+            </div>
+            <div class="result-info-item">
+              <i data-lucide="percent" class="info-icon"></i>
+              <div>
+                <p class="info-label">Maintenance Probability</p>
+                <p class="info-value" id="probability-value">—</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── AI Insights Panel ── -->
+        <div class="insights-panel" id="insights-panel">
+          <div class="insights-header">
+            <div class="insights-title-row">
+              <div class="insights-icon-wrap">
+                <i data-lucide="brain-circuit" class="insights-icon"></i>
+              </div>
+              <div>
+                <p class="insights-label">Insights</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading skeleton -->
+          <div class="insights-loading" id="insights-loading">
+            <div class="skeleton-line skeleton-line--wide"></div>
+            <div class="skeleton-line skeleton-line--med"></div>
+            <div class="skeleton-line skeleton-line--wide"></div>
+            <div class="skeleton-line skeleton-line--short"></div>
+            <div class="skeleton-line skeleton-line--med"></div>
+          </div>
+
+          <!-- Rendered insight content -->
+          <div class="insights-content hidden" id="insights-content"></div>
+
+          <!-- Error state -->
+          <div class="insights-error hidden" id="insights-error">
+            <i data-lucide="wifi-off" class="insights-error-icon"></i>
+            <p id="insights-error-msg">Could not generate insights.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Fleet Predictive Maintenance System &mdash; Powered by AI &amp; Machine Learning</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

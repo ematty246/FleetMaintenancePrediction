@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-OPENWEATHER_API_KEY = "your-api-key-here"
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 model = joblib.load(
     os.path.join(BASE_DIR, "models", "maintenance_model.pkl")
 )

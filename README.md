@@ -6,6 +6,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.x-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com)
+[![XGBoost](https://img.shields.io/badge/XGBoost-ML-FF6600?style=for-the-badge&logo=xgboost&logoColor=white)](https://xgboost.readthedocs.io)
 [![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -52,8 +53,8 @@ The Fleet Maintenance Prediction System is a full-stack ML application that help
                │
                ▼
 ┌─────────────────────────────────┐
-│      ML MODEL  (Scikit-learn)   │
-│   RandomForestClassifier        │
+│      ML MODEL  (XGBoost)        │
+│   XGBClassifier                 │
 │   maintenance_model.pkl         │
 └──────────────┬──────────────────┘
                │  Prediction (0 / 1)
@@ -74,7 +75,7 @@ The Fleet Maintenance Prediction System is a full-stack ML application that help
 | 1. Data Collection | Fleet operational CSV dataset |
 | 2. Data Cleaning | Handle nulls, outliers, type casting |
 | 3. Feature Engineering | Encode categoricals, normalize numerics |
-| 4. Model Training | `RandomForestClassifier` via Scikit-learn |
+| 4. Model Training | `XGBClassifier` via XGBoost |
 | 5. Serialization | Export model as `maintenance_model.pkl` |
 | 6. API Integration | Serve predictions through Flask endpoint |
 
@@ -122,7 +123,7 @@ git clone https://github.com/ematty246/FleetMaintenancePrediction.git
 cd FleetMaintenancePrediction
 
 # 2. Install dependencies
-pip install flask scikit-learn pandas numpy
+pip install flask xgboost scikit-learn pandas numpy
 
 # 3. Start the Flask server
 cd backend
@@ -228,7 +229,7 @@ Predict whether a vehicle requires maintenance based on its current operational 
 |-------|------------|
 | Language | Python 3.9+ |
 | Backend Framework | Flask |
-| ML Library | Scikit-learn |
+| ML Library | XGBoost, Scikit-learn |
 | Data Processing | Pandas, NumPy |
 | Model Storage | Pickle (`.pkl`) |
 | Frontend | HTML5, CSS3, Vanilla JS |
@@ -240,7 +241,7 @@ Predict whether a vehicle requires maintenance based on its current operational 
 - [ ] Cloud deployment (AWS / Render + Netlify)
 - [ ] JWT-based authentication
 - [ ] Swagger / OpenAPI documentation
-- [ ] Deep learning model (LSTM for time-series)
+- [ ] Experiment with deep learning models (LSTM for time-series)
 - [ ] Real-time IoT vehicle data integration
 - [ ] Dashboard with maintenance history & analytics
 - [ ] Docker containerization

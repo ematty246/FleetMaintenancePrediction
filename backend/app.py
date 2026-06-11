@@ -5,11 +5,14 @@ import numpy as np
 import os
 import requests
 from flask_cors import CORS
+from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 CORS(app)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv()
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 model = joblib.load(
     os.path.join(BASE_DIR, "models", "maintenance_model.pkl")

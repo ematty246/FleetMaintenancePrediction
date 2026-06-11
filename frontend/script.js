@@ -1,5 +1,5 @@
 'use strict';
-const API_URL = 'http://127.0.0.1:5000/predict';
+const API_URL = 'https://fleetmaintenanceprediction.onrender.com/predict';
 const TOAST_DURATION = 4500; 
 const form           = document.getElementById('predict-form');
 const predictBtn     = document.getElementById('predict-btn');
